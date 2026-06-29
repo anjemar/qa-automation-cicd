@@ -10,7 +10,7 @@ def run_test(username, password, expected_text, check_element=None):
     options.add_argument("--disable-dev-shm-usage")
 
     # Use Service to specify chromedriver path
-    service = Service("./chromedriver")   # Linux in CI/CD
+    service = Service("./chromedriver.exe")  # Windows local
     # service = Service("./chromedriver.exe")  # Windows local
 
     driver = webdriver.Chrome(service=service, options=options)
