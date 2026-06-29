@@ -1,14 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 import time
 
 def run_test(username, password, expected_text, check_element=None):
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")          # run without GUI
+    options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=options)
+    # Use Service to specify chromedriver path
+    service = Service("./chromedriver")   # Linux in CI/CD
+    # service = Service("./chromedriver.exe")  # Windows local
+
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get("https://practicetestautomation.com/practice-test-login/")
 
     if username:
