@@ -19,8 +19,7 @@ jobs:
           python-version: 3.11
 
       - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Install Chrome
         run: |
@@ -30,7 +29,8 @@ jobs:
       - name: Install ChromeDriver
         run: |
           sudo apt-get install -y chromium-chromedriver
-          sudo ln -s /usr/bin/chromedriver /usr/local/bin/chromedriver
+          which chromedriver
+          chromedriver --version
 
       - name: Run Selenium Tests
         run: python login_test.py

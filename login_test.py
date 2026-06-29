@@ -3,7 +3,12 @@ from selenium.webdriver.common.by import By
 import time
 
 def run_test(username, password, expected_text):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")  # run without opening a browser window
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(options=options)  # GitHub runner finds chromedriver automatically
     driver.get("https://practicetestautomation.com/practice-test-login/")
 
     driver.find_element(By.ID, "username").send_keys(username)
