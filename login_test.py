@@ -4,11 +4,11 @@ import time
 
 def run_test(username, password, expected_text, check_element=None):
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument("--headless")          # run without GUI
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)  # GitHub runner finds chromedriver automatically
     driver.get("https://practicetestautomation.com/practice-test-login/")
 
     if username:
@@ -36,11 +36,6 @@ def run_test(username, password, expected_text, check_element=None):
     driver.quit()
 
 if __name__ == "__main__":
-    # Valid login → check page source for success
     run_test("student", "Password123", "Logged In Successfully")
-
-    # Invalid login → check error message element
     run_test("wronguser", "wrongpass", "Your username is invalid!", check_element="error")
-
-    # Empty fields → check error message element
     run_test("", "", "Please enter username and password", check_element="error")
