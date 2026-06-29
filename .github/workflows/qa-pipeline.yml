@@ -39,5 +39,4 @@ jobs:
           chromedriver --version
 
       - name: Run Selenium Tests
-        run: |
-          python login_test.py
+        run: python login_test.py
