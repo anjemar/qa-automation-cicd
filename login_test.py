@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-def run_test(username, password, expected_text):
+def run_test(username, password, expected_text, check_element=None):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -11,14 +11,24 @@ def run_test(username, password, expected_text):
     driver = webdriver.Chrome(options=options)
     driver.get("https://practicetestautomation.com/practice-test-login/")
 
-    driver.find_element(By.ID, "username").send_keys(username)
-    driver.find_element(By.ID, "password").send_keys(password)
+    if username:
+        driver.find_element(By.ID, "username").send_keys(username)
+    if password:
+        driver.find_element(By.ID, "password").send_keys(password)
+
     driver.find_element(By.ID, "submit").click()
-
     time.sleep(2)
-    page_source = driver.page_source
 
-    if expected_text in page_source:
+    result = ""
+    try:
+        if check_element:
+            result = driver.find_element(By.ID, check_element).text
+        else:
+            result = driver.page_source
+    except:
+        result = driver.page_source
+
+    if expected_text in result:
         print(f"TEST PASSED: {username}/{password}")
     else:
         print(f"TEST FAILED: {username}/{password}")
@@ -26,6 +36,11 @@ def run_test(username, password, expected_text):
     driver.quit()
 
 if __name__ == "__main__":
+    # Valid login → check page source for success
     run_test("student", "Password123", "Logged In Successfully")
-    run_test("wronguser", "wrongpass", "Your username is invalid!")
-    run_test("", "", "Please enter username and password")
+
+    # Invalid login → check error message element
+    run_test("wronguser", "wrongpass", "Your username is invalid!", check_element="error")
+
+    # Empty fields → check error message element
+    run_test("", "", "Please enter username and password", check_element="error")
