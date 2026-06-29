@@ -8,7 +8,7 @@ def run_test(username, password, expected_text, check_element=None):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=options)  # GitHub runner finds chromedriver automatically
+    driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=options)
     driver.get("https://practicetestautomation.com/practice-test-login/")
 
     if username:
