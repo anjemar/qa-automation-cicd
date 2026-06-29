@@ -2,7 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 import time
-import platform  # detect OS
+import platform
+if platform.system() == "Windows":
+    service = Service("./chromedriver.exe")
+else:
+    service = Service("./chromedriver")
 
 def run_test(username, password, expected_text, check_element=None):
     options = webdriver.ChromeOptions()
