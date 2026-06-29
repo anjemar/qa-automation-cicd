@@ -1,25 +1,36 @@
-name: QA Automation Pipeline   # Name of the workflow
+name: QA Automation Pipeline
 
-on:                            # When should it run?
-  push:                        # Run whenever you push code
+on:
+  push:
     branches:
-      - main                   # Only on the 'main' branch
+      - main
 
-jobs:                          # Define jobs
-  test:                        # Job name
-    runs-on: ubuntu-latest     # GitHub provides a Linux VM
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-    steps:                     # Steps inside the job
+    steps:
       - name: Checkout Code
-        uses: actions/checkout@v4   # Pulls your repo files
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11      # Installs Python 3.11
+          python-version: 3.11
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt   # Installs Selenium
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install ChromeDriver
+        run: |
+          sudo apt-get install -y chromium-chromedriver
+          sudo ln -s /usr/bin/chromedriver /usr/local/bin/chromedriver
 
       - name: Run Selenium Tests
-        run: python login_test.py   # Runs your test script
+        run: python login_test.py
